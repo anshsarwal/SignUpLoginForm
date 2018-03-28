@@ -8,14 +8,19 @@
 
   import signlogin from './Components/signlogin'
   import forgotpassword from './Components/forgotpassword'
-  import changepassword from './Components/changepassword'
 
   export default {
     components:{
       'app-signlogin': signlogin,
       'app-forgotpassword': forgotpassword,
-      'app-changepassword': changepassword
     }   
   }
 </script>
+
+<style>
+#app{
+  margin-top: 100px;
+  font-family: 'Open Sans', arial, Verdana, Tahoma, sans-serif;
+}
+</style>
 

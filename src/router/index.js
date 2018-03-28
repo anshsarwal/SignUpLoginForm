@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import signlogin from '../Components/signlogin'
-import forgotpassword from '../Components/forgotpassword'
-import changepassword from '../Components/changepassword'
+import signlogin from '@/Components/signlogin'
+import forgotpassword from '@/Components/forgotpassword'
 
 Vue.use(Router)
 
@@ -14,11 +13,7 @@ export default new Router({
     },
     {
       path: '/forgot',
-      components: forgotpassword
+      component: forgotpassword
     },
-    {
-      path: '/change',
-      components: changepassword
-    }
   ]
 })

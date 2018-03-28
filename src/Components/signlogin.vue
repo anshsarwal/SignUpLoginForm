@@ -1,115 +1,79 @@
 <template>
   <div id="signlogin">
       <!-- In a container we will have a layout and 2 flexes adj to each other and each will contain card -->
-    <v-container text-xs-center style="margin-top:70px ; margin-left:220px ;">
+    <v-container text-xs-center>
       <v-layout row wrap>
         <!-- Left Side Card , will contain image and will be on top in mobile -->
-        <v-flex id="left" lg6 md6 xs12 order-sm1>
-          <v-card flat height="434px">
-            <v-card-text> 
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore velit praesentium numquam sunt at quam sed modi sint nihil atque mollitia dolore quod ducimus, autem aliquam eaque tenetur adipisci eos?
-            </v-card-text>
-            <v-card-text>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore velit praesentium numquam sunt at quam sed modi sint nihil atque mollitia dolore quod ducimus, autem aliquam eaque tenetur adipisci eos?
-            </v-card-text>
-            <v-card-text>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore velit praesentium numquam sunt at quam sed modi sint nihil atque mollitia dolore quod ducimus, autem aliquam eaque tenetur adipisci eos?
-            </v-card-text>
-            <v-card-text>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore velit praesentium numquam sunt at quam sed modi sint nihil atque mollitia dolore quod ducimus, autem aliquam eaque tenetur adipisci eos?
-            </v-card-text>
+        <v-flex id="left" lg4 offset-lg2 md4 offset-md2 hidden-sm-and-down>
+          <v-card>
+              
           </v-card>
         </v-flex>
         <!-- Right hand Side Card , will contain the tabs and will be below the image in mobile -->
-        <v-flex id="right" lg6 md6 xs12 order-sm2>
-          <v-tabs v-model="active" grow color="light-blue lighten-1" class="navTabs" slider-color="black">
-            <v-tab v-for="(detail,i) in details" :key="i" style="margin-top: 15px">
+        <v-flex id="right" lg4 md4 sm6 xs12>
+          <v-tabs v-model="active" grow class="navTabs" slider-color="light-blue accent-1">
+            <v-tab v-for="(detail,i) in details" :key="i" style="margin-top: 8px">
               <p class="detailStyle">{{ detail }}</p>
             </v-tab>
             <!-- The Items are 2 forms for Login and Sign-Up -->
             <v-tab-item class="itemStyle">
               <!-- Sign-Up Form inside the Card -->
-              <v-card flat>
-                <v-form @submit.prevent="validateBeforeSubmit()">
+              <v-card>
+                <v-form>
                   <v-container text-xs-center>
                     <!-- Text-Field Email -->
                     <v-layout row wrap>
-                      <v-flex lg11 xs11>
-                        <v-text-field
-                          v-model="email"
-                          label="E-mail"
-                          :error-messages="errors.collect('email')"
-                          v-validate="'required|email'"
-                          data-vv-name="email"
-                          prepend-icon="email"
-                          clearable
-                          required
-                        ></v-text-field>
+                      <v-flex lg9 offset-lg1 md9 offset-md1 sm9 offset-sm1 xs9 offset-xs1 class="form-group">
+                        <input 
+                        type="email"
+                        name="Email"
+                        placeholder="E-Mail"
+                        v-model="email"
+                        required/>
+                        <span v-if="email.length > 1">{{ email_msg }}</span>
                       </v-flex>
                     </v-layout>
                     <!-- Text-Field Phone No. -->
                     <v-layout  row wrap>
-                      <v-flex lg11 xs11>
-                        <v-text-field
-                          v-model="contact"
-                          label="Contact Number"
-                          :error-messages="errors.collect('contact')"
-                          v-validate="'required|min:10|max:10'"
-                          data-vv-name="contact"
-                          prepend-icon="phone"
-                          clearable                          
-                          required
-                        ></v-text-field>
+                      <v-flex lg9 offset-lg1 md9 offset-md1 sm9 offset-sm1 xs9 offset-xs1 class="form-group">
+                        <input 
+                        type="text" 
+                        name="contact" 
+                        v-model="contact"
+                        placeholder="Contact Number"
+                        required/>
+                        <span v-show="msg1">{{ contact_msg }}</span>
                       </v-flex>
                     </v-layout>
                     <!-- Text-Field Password -->
                     <v-layout row wrap>
-                      <v-flex lg11 xs11>
-                        <v-text-field
-                          v-model="password"
-                          label="Password"
-                          :error-messages="errors.collect('password')"
-                          v-validate="'required|min:6'"
-                          data-vv-name="password"
-                          prepend-icon="lock"
-                          :append-icon="e1 ? 'visibility' : 'visibility_off'" 
-                          :append-icon-cb="() => (e1 = !e1)" 
-                          :type="e1 ? 'password' : 'text'"
-                          required
-                        ></v-text-field>
+                      <v-flex lg9 offset-lg1 md9 offset-md1 sm9 offset-sm1 xs9 offset-xs1 class="form-group">
+                        <input 
+                        type="password" 
+                        name="Password" 
+                        v-model="password"
+                        placeholder="Password"        
+                        required/>
+                        <span v-show="msg2">{{ pwd_msg }}</span>
                       </v-flex>
                     </v-layout>
                     <!-- Text-Field Confirm Password -->
                     <v-layout row wrap>
-                      <v-flex lg11 xs11>
-                        <v-text-field 
-                          v-model="confPassword"
-                          label="Confirm Password"
-                          :error-messages="errors.collect('confPassword')"
-                          v-validate="'required|min:6|confirmed:confPassword'"
-                          :append-icon="e2 ? 'visibility' : 'visibility_off'" 
-                          :append-icon-cb="() => (e2 = !e2)" 
-                          :type="e2 ? 'password' : 'text'"
-                          data-vv-as="password"
-                          prepend-icon="vpn_key"
-                          required
-                        ></v-text-field>
-                        <!-- Something for Password Confirmation for v-validate -->
-                        <v-layout row wrap>
-                          <v-flex v-if="errors.has('confPassword')">
-                            {{ errors.first('confPassword') }}
-                          </v-flex>
-                        </v-layout>
+                      <v-flex lg9 offset-lg1 md9 offset-md1 sm9 offset-sm1 xs9 offset-xs1 class="form-group">
+                        <input 
+                        type="password" 
+                        name="confpassword" 
+                        v-model="confpassword"
+                        placeholder="Confirm Password"            
+                        required/>
+                        <span v-show="msg3">{{ confpwd_msg }}</span>
                       </v-flex>
                     </v-layout>
                     <!-- The Submit and CLear Buttons -->
                     <v-layout row-wrap>
-                      <v-flex lg6 xs12 order-sm1>
-                        <v-btn @click="submitSignUp" type="submit" large style="border-radius: 4px" color="blue-grey lighten-1">SIGN-UP</v-btn>
-                      </v-flex>
-                      <v-flex lg6 xs12 order-sm2>
-                        <v-btn @click="clear" large style="border-radius: 4px" color="blue-grey lighten-1">CLEAR</v-btn>
-                      </v-flex>
+                      <v-flex mb-3>
+                            <v-btn class="button" :class="{active: disable_btn}" :disabled="disable_btn" @click.prevent="submitSignUp" top outline type="submit" large style="border-radius: 4px">SUBMIT</v-btn>
+                        </v-flex>
                     </v-layout>
                   </v-container>
                 </v-form>
@@ -118,57 +82,43 @@
 
             <v-tab-item class="itemStyle">
               <!-- Login Form inside the Card -->
-              <v-card flat height="384px">
-                <v-form @submit.prevent="validateBeforeSubmit()">
+              <v-card height="404px">
+                <v-form>
                   <v-container text-xs-center>
                     <!-- Text-Field Email -->
                     <v-layout row wrap>
-                      <v-flex lg11 xs11>
-                        <v-text-field
-                          v-model="email"
-                          label="E-mail"
-                          :error-messages="errors.collect('email')"
-                          v-validate="'required|email'"
-                          data-vv-name="email"
-                          prepend-icon="email"
-                          clearable
-                          required
-                        ></v-text-field>
+                      <v-flex  lg9 offset-lg1 md9 offset-md1 sm9 offset-sm1 xs9 offset-xs1 class="form-group">
+                        <input 
+                        type="email"
+                        name="Email"
+                        placeholder="E-Mail"
+                        v-model="email"
+                        required/>
+                        <span v-if="email.length > 1">{{ email_msg }}</span>
                       </v-flex>
                     </v-layout>
                     <!-- Text Field Password -->
                     <v-layout row wrap>
-                      <v-flex lg11 xs11>
-                        <v-text-field
-                          v-model="password"
-                          label="Password"
-                          prepend-icon="lock"
-                          :error-messages="errors.collect('password')"
-                          v-validate="'required|min:6'"
-                          data-vv-name="password"
-                          :append-icon="e3 ? 'visibility' : 'visibility_off'" 
-                          :append-icon-cb="() => (e3 = !e3)" 
-                          :type="e3 ? 'password' : 'text'"
-                          required 
-                        ></v-text-field>
+                      <v-flex  lg9 offset-lg1 md9 offset-md1 sm9 offset-sm1 xs9 offset-xs1 class="form-group">
+                        <input 
+                        type="password" 
+                        name="Password" 
+                        v-model="password"
+                        placeholder="Password"      
+                        required/>
+                        <span v-show="msg2">{{ pwd_msg }}</span>
                       </v-flex>
                     </v-layout>
-                    <!-- The Forgot Password and Change Password Buttons(need to attach events) -->
-                    <v-layout row wrap>
-                      <v-flex lg6 xs12 order-sm1>
-                        <router-link to="/forgot"><v-btn  block depressed color="white">Forgot Password?</v-btn></router-link>
+                    <!-- The Forgot Password(need to attach events) -->
+                      <v-flex lg4 md4 sm4 xs4>
+                        <router-link to="/forgot">
+                            <v-btn depressed left color="white">Forgot Password?</v-btn>
+                        </router-link>
                       </v-flex>
-                      <v-flex lg6 xs12 order-sm2>
-                        <router-link to="/change"><v-btn block depressed color="white">Change Password?</v-btn></router-link>
-                      </v-flex>
-                    </v-layout>
                     <!-- The Submit and CLear Buttons -->
                     <v-layout row wrap>
-                      <v-flex lg6 xs12 order-sm1>
-                        <v-btn @click="submitLogin" type="submit" large style="border-radius: 4px" color="blue-grey lighten-1">LOGIN</v-btn>
-                      </v-flex>
-                      <v-flex lg6 xs12 order-sm2>
-                        <v-btn @click="clear" large style="border-radius: 4px" color="blue-grey lighten-1">CLEAR</v-btn>
+                      <v-flex mb-3>
+                        <v-btn class="button" :class="{active: disable_btn}" :disabled="disable_btn" @click.prevent="submitLogin" top outline type="submit" large style="border-radius: 4px">SUBMIT</v-btn>
                       </v-flex>
                     </v-layout>
                   </v-container>
@@ -186,140 +136,242 @@
 
 import axios from 'axios'
 import forgotpassword from './forgotpassword'
-import changepassword from './changepassword'
 
 export default {
     components:{
         'forgotpass': forgotpassword,
-        'changepass': changepassword
     },
 
-     $_veeValidate: {
-      validator: 'new'
-    },
-
-    data: () => ({
-      active: null,
-      email: '',
-      contact: '',
-      password: '',
-      confPassword: '',
-      e1: true,
-      e2: true,
-      e3: true,
+    data: () => ({  
       details: ['SIGN-UP', 'LOGIN'],
-      confPasswordRules: [
-        v => !!v || 'Confirmation is required',
-        v => (v && v.confPassword === this.password) || 'Password should match'
-      ],
-
-      dictionary: {
-        attributes: {
-          email: 'E-mail Address',
-          contact: 'Contact Number',
-          password: 'Password',
-          // custom attributes
-        },
-
-        custom: {
-          email: {
-            required: () => 'Email can not be empty',
-            valid: 'The email field must be valid'
-            // custom messages
-          },
-          contact: {
-            required: () => 'Contact Number can not be empty',
-            valid: 'The contact number field should be exactly 10 characters'
-            // custom messages
-          },
-          password: {
-              required: () => 'Password can not be empty',
-              min: 'The password field should not be lesser than 6 characters'
-              // custom messages
-          },
-          confPassword: {
-            required: () => 'This Field Must be the same as the previous one',
-            min: 'This field must contain at least 6 characters',
-            confirmed: 'The Field should be same as that above'
-          }
-        }
-      }
+      active: null,
+      disable_btn: true,
+      msg1: true,
+      msg2: true,
+      msg3: true,
+      email: '',
+      email_msg: '',
+      contact: '',
+      contact_msg: '',
+      password: '',
+      pwd_msg: '',
+      confpassword: '',
+      confpwd_msg: '',
     }),
 
-    mounted () {
-      this.$validator.localize('en', this.dictionary)
+    watch: {
+    email: function(value) {
+      this.valid_email(value, 'email_msg');
     },
+    contact: function(){
+      if(this.check_contact_length(value, 'contact_msg', 10)) {
+        this.check_contact_match();
+      }
+    },
+    password: function(value) {
+      if(this.check_password_length(value, 'pwd_msg', 6)) {
+        this.check_passwords_match();
+      }
+    },
+    confpassword: function(value) {
+      if(this.check_password_length(value, 'confpwd_msg', 6)) {
+        this.check_passwords_match();
+      }
+    }
+  },
 
     methods: {
-      validateBeforeSubmit(){
-        this.$validator
-        .validateAll()
-        .then(function(response) {
-          // Validation success if response === true
-        })
-        .catch(function(e) {
-          // Catch errors
-        })
-      },
 
-      submitSignUp () {
-        this.$validator.validateAll()
-        axios.post(`http://jsonplaceholder.typicode.com/posts`, {
-            email: this.email,
-            phoneno: this.contact,
-            password: this.password
-          })
-          .then(response => {
-            console.log(response)
-          })
-          .catch(e => {
-            // 
-            // 
-          })
-      },
-      submitLogin () {
-        this.$validator.validateAll()
-        axios.post(`http://jsonplaceholder.typicode.com/posts`, {
-            body: this.email,
-            password:this.password
-          })
-          .then(response => {
-            console.log(response)
-          })
-          .catch(e => {
-            // this.emailRules.push(e),
-            // this.passwordRules.push(e)
-          })
-      },
+        valid_email(email, msg) {
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+            this[msg] = '';
+            disable_btn: true;
+            return true;
+        } else {
+            this[msg] = 'Keep typing untill the email is valid';
+            disable_btn: false;
+            return false;
+          } 
+        },
 
-      clear () {
-        this.email = ''
-        this.contact = ''
-        this.password = ''
-        this.confPassword = ''
-        this.$validator.reset()
-      }
+        check_contact_length(value, msg, total) {
+        var length = value.length;
+        var sum = 0;
+        var display;
+        
+        sum = (total - length);
+        
+        switch(sum) {
+            case 0:
+            display = '';
+            break;
+            case 1:
+            display = sum + ' more numbers to type';
+            break;
+            default:
+            display = sum + ' more numbers to type';
+        }
+        
+        if(length >= total) {
+            this[msg] = '';
+            disable_btn: false;
+            return true;
+        } else {
+            this[msg] = display;
+            disable_btn: true;
+            return false;
+        }
+        
+        },
+        
+        check_password_length(value, msg, total) {
+        var length = value.length;
+        var sum = 0;
+        var display;
+        
+        sum = (total - length);
+        
+        switch(sum) {
+            case 0:
+            display = '';
+            break;
+            case 1:
+            display = sum + ' more character to type';
+            break;
+            default:
+            display = sum + ' more characters to type';
+        }
+        
+        if(length >= total) {
+            this[msg] = '';
+            disable_btn: false;
+            return true;
+        } else {
+            this[msg] = display;
+            disable_btn: true;
+            return false;
+        }
+        
+        },
+        
+        check_passwords_match() {
+        if(this.password.length > 5 && this.confpassword.length > 5) {
+            if(this.confpassword != this.password) {
+                this.confpwd_msg = 'Password Fields do not match';
+                disable_btn: true;
+                return true;
+            } else {
+                this.confpwd_msg = '';
+                disable_btn: false;
+                return false;
+            }
+            }
+        },
+
+        submitSignUp () {
+            axios.post(`http://jsonplaceholder.typicode.com/posts`, {
+                email: this.email,
+                contact: this.contact,
+                password: this.password
+            })
+            .then(response => {
+            console.log(response)
+            })
+            .catch(e => {
+            })
+            disable_btn: true;
+            msg1: true;
+            msg2: true;
+            msg3: true;
+            email: '';
+            email_msg: '';
+            contact: '';
+            contact_msg: '';
+            password: '';
+            pwd_msg: '';
+            confpassword: '';
+            confpwd_msg: '';
+        },
+
+        submitLogin () {
+            axios.post(`http://jsonplaceholder.typicode.com/posts`, {
+                email: this.email,
+                password: this.password
+            })
+            .then(response => {
+            console.log(response)
+            })
+            .catch(e => {
+                // 
+            })
+            disable_btn: true;
+            msg1: true;
+            msg2: true;
+            msg3: true;
+            email: '';
+            email_msg: '';
+            contact: '';
+            contact_msg: '';
+            password: '';
+            pwd_msg: '';
+            confpassword: '';
+            confpwd_msg: '';
+        }
     } 
 }
 </script>
 
 <style scoped>
 #left{
-  max-width: 450px;
-  border: solid grey 1px;
-  font-family: 'Cagliostro', sans-serif;
+  border-top: solid lightgray 1px; 
+  border-bottom: solid lightgray 1px; 
+  border-left: solid lightgray 1px; 
   font-size: 14px;
 }
 #right{
-  max-width: 450px;
-  border: solid grey 1px;
+    border: solid lightgray 1px;
 }
 .detailStyle{
-  font-family: 'Cagliostro', sans-serif;
   font-size: 18px;
 }
 .itemStyle{
-  font-family: 'Cagliostro', sans-serif;
   font-size: 14px;
 }
+.button{
+    color: deepskyblue;
+}
+input{
+    width: 100%;
+    border-bottom: solid lightgray 1px;
+    outline: none;
+    padding: 20px 1px;
+    margin: 10px;
+} 
+input:hover{
+    border-bottom: solid black 1px;
+}
+input:focus{
+    border-bottom: deepskyblue solid 2px;
+
+} 
+input::-webkit-input-placeholder {
+ font-family: 'roboto', sans-serif;
+ -webkit-transition: all 0.3s ease-in-out;
+ transition: all 0.3s ease-in-out;
+}
+input:focus::-webkit-input-placeholder, input:valid::-webkit-input-placeholder {
+ color: deepskyblue;
+ font-size: 11px;
+ -webkit-transform: translateY(-20px);
+ transform: translateY(-20px);
+ visibility: visible !important;
+}
+span {
+    font-size: .8em;
+    color: red;
+}  
+/* span#characters {
+    font-size: .8em;
+    color: grey;
+} */
 </style>
