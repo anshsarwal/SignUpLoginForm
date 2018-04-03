@@ -24,7 +24,7 @@
                         </v-layout>
 
                         <v-flex mb-3>
-                            <v-btn id="but" top outline :class="{active: disable_btn}" :disabled="disable_btn" @click.prevent="send" type="submit" large style="border-radius: 4px">SUBMIT</v-btn>
+                            <v-btn id="but" top depressed :class="{active: disable_btn}" :disabled="disable_btn" @click.prevent="send" type="submit" large style="border-radius: 4px">SUBMIT</v-btn>
                         </v-flex>
                     </v-container>
                   </v-form>
@@ -93,9 +93,17 @@ export default {
 .card__title{
     display: flex;
     justify-content: center;
+    color: white;
+    background-color: deepskyblue;
 }
 #but{
+    border: solid deepskyblue 2px;
     color: deepskyblue;
+    background-color: white;
+}
+#but:hover{
+    color: white;
+    background-color: deepskyblue;
 }
 .divider{
     border-bottom: solid lightgrey 1px;

@@ -4,10 +4,25 @@
     <v-container text-xs-center>
       <v-layout row wrap>
         <!-- Left Side Card , will contain image and will be on top in mobile -->
-        <v-flex id="left" lg4 offset-lg2 md4 offset-md2 hidden-sm-and-down>
-          <v-card>
-              
-          </v-card>
+        <v-flex id="left" lg4 offset-lg2 md4 offset-md2 hidden-xs>
+          <v-jumbotron color="light-blue accent-1" height="460px">
+            <v-container>
+              <v-layout row wrap>
+                <v-flex id="leftTitle">
+                  <h3 class="display-3 text-xs-center white--text">BENEFITS</h3>
+                </v-flex>
+                <v-flex>
+                  <br>
+                  <br>
+                  <span><i class="fab fa-angellist fa-1x"></i> lorem ipsum dolor et amet, abey chalo karo github pe comet.</span>
+                  <br><br>
+                  <span><i class="fab fa-angellist fa-1x"></i> lorem ipsum dolor et amet, abey chalo karo github pe comet.</span>
+                  <br><br>
+                  <span><i class="fab fa-angellist fa-1x"></i> lorem ipsum dolor et amet, abey chalo karo github pe comet.</span>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-jumbotron>
         </v-flex>
         <!-- Right hand Side Card , will contain the tabs and will be below the image in mobile -->
         <v-flex id="right" lg4 md4 sm6 xs12>
@@ -72,7 +87,7 @@
                     <!-- The Submit and CLear Buttons -->
                     <v-layout row-wrap>
                       <v-flex mb-3>
-                            <v-btn class="button" :class="{active: disable_btn}" :disabled="disable_btn" @click.prevent="submitSignUp" top outline type="submit" large style="border-radius: 4px">SUBMIT</v-btn>
+                            <v-btn class="button" :class="{active: disable_btn}" :disabled="disable_btn" @click.prevent="submitSignUp" top depressed type="submit" large style="border-radius: 4px">SUBMIT</v-btn>
                         </v-flex>
                     </v-layout>
                   </v-container>
@@ -118,7 +133,7 @@
                     <!-- The Submit and CLear Buttons -->
                     <v-layout row wrap>
                       <v-flex mb-3>
-                        <v-btn class="button" :class="{active: disable_btn}" :disabled="disable_btn" @click.prevent="submitLogin" top outline type="submit" large style="border-radius: 4px">SUBMIT</v-btn>
+                        <v-btn class="button" depressed :class="{active: disable_btn}" :disabled="disable_btn" @click.prevent="submitLogin" top type="submit" large style="border-radius: 4px">SUBMIT</v-btn>
                       </v-flex>
                     </v-layout>
                   </v-container>
@@ -292,6 +307,12 @@ export default {
   border-bottom: solid lightgray 1px; 
   border-left: solid lightgray 1px; 
   font-size: 14px;
+  display: flex;
+  justify-content: center;
+}
+#left span{
+  color: white;
+  font-size: 14px;
 }
 #right{
     border: solid lightgray 1px;
@@ -303,8 +324,15 @@ export default {
   font-size: 14px;
 }
 .button{
+    border: solid deepskyblue 2px;
     color: deepskyblue;
+    background: white;
 }
+.button:hover{
+  color: white;
+  background-color: deepskyblue;
+}
+/*For Everything in the input field*/
 input{
     width: 100%;
     border-bottom: solid lightgray 1px;
@@ -335,8 +363,4 @@ span {
     font-size: .8em;
     color: red;
 }  
-/* span#characters {
-    font-size: .8em;
-    color: grey;
-} */
 </style>
